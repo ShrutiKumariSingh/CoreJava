@@ -1,3 +1,23 @@
+public class Main {
+    public static void main(String[] args) {
+        ExpenseTracker tracker = new ExpenseTracker();
+        String file = "expenses.txt";
+
+        Expense e1 = new Expense("2025-04-01", "Food", 12.50, "Lunch");
+        Expense e2 = new Expense("2025-04-03", "Transport", 3.75, "Bus fare");
+        Expense e3 = new Expense("2025-03-28", "Shopping", 45.00, "Groceries");
+
+        tracker.addExpense(e1, file);
+        tracker.addExpense(e2, file);
+        tracker.addExpense(e3, file);
+
+        double aprilTotal = tracker.calculateMonthlyTotal(file, "2025-04");
+        System.out.println("Total spent in April 2025: $" + aprilTotal);
+
+        tracker.generateSummary(file, "summary.txt");
+    }
+}
+
 public class Expense {
     private String date;   
     private String category;
@@ -82,3 +102,8 @@ public class ExpenseTracker {
                 for (Map.Entry<String, Double> entry : monthlyTotals.entrySet()) {
                     writer.write(entry.getKey() + ": $" + String.format("%.2f", entry.getValue()) + "\n");
                 }
+            catch (IOException e) {
+            System.out.println("Error during summary generation: " + e.getMessage());
+        }
+    }
+}
